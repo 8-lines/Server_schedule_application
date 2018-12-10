@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Cabin');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+html {
+	overflow-y: scroll;
+}
+
+body{
+    background-image: url(images/back1025.jpg);
+    background-size: 100% auto;
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	line-height: 1.6;
+    overflow-x: hidden;
+	padding: 2%;
+	display: 'block';
+}
+
+.btn-light:first-of-type{
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 0%; 
+	font-size: 1.4em; 
+    float: left;
+	font-family: "Franklin Gothic Demi", sans-serif;
+	color: #1a535c;
+}
+
+.btn-warning{
+	margin-left: 12%;
+    margin-top: 0%; 
+	font-size: 1.4em; 
+	float: left;
+	color: #1a535c;
+	font-family: "Franklin Gothic Demi", sans-serif;
+}
+
+.btn-light, 
+.btn-warning{
+	display: inline-block;
+}

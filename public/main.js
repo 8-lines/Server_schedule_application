@@ -24,11 +24,6 @@
 var isLog = firebase.auth().currentUser;
 
 
-// var user = firebase.auth().currentUser;
-// if (user!=null){
-//   user = null;
-// }
-
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     if (isLog != null) {

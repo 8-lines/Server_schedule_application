@@ -4,6 +4,17 @@ var fs = require('fs');
 const express = require('express');
 const server = express();
 
+var mysql = require('mysql');
+var con = mysql.createConnection({
+  host: '35.236.149.253',
+  user: 'root',
+  password: 'root'
+});
+con.connect(function (err) {
+    if (err )
+        throw err;
+})
+
 // const restify = require('restify'); 
 // const server = restify.createServer(); 
 
@@ -22,17 +33,6 @@ server.use(
    //directory: __dirname,
    // default: __dirname + '/index.js'
 //}));
-
-server.post('/api/train',
-    function(req, res, next){
-    console.log(req.body);
-    var train = req.body;
-    // insertTrain(train);
-    // res.sendStatus(200);
-    // res.end();
-    res.send(JSON.stringify(train));
-    next();
-});
 
 server.get('/', function(req,res, next){ 
     console.log('/main.. was called'); 
@@ -84,40 +84,53 @@ String.prototype.replaceAll = function(search, replacement) {
   return target.split(search).join(replacement);
 };
 
-
 exports.server = functions.https.onRequest(server);
-
-var mysql = require('mysql');
-
-var con = mysql.createConnection({
-  host: "35.236.149.253",
-  user: "root",
-  password: "root",
-});
 
 String.prototype.replaceAll = function(search, replacement) {
   var target = this;
   return target.split(search).join(replacement);
 };
 
- function insertTrain(train) {
-    con.connect(function (err) {
-        if (err)
-            throw err
-        con.query('use train_schedule;', function (err, result, fields){ 
-        if(err) 
+server.post('/api/train',
+    function(req, res, next){
+    console.log(req.body);
+    var train = req.body;
+    insertTrain(train);
+    res.sendStatus(200);
+    // res.end();
+    res.send(JSON.stringify(train));
+    next();
+});
+
+server.get('/schedulesList', (req, res)=>{
+    con.query('use train_schedule;', function (err, result, fields){
+        if(err)
             throw err;
+      });    
+    var sql  = fs.readFileSync('../public/All_schedules.sql', 'utf8');
+
+    con.query(sql, function (err, result) {
+        if (err){
+            console.log(err);
+        } else{
+            console.log(result);
+            res.json(result);
+        }
     });
+    // });
+});
+
+function insertTrain(train) {
     //var values = Object.values(train);
-    var sql =`INSERT INTO trains (${Object.keys(train).join(',')})` + 'VALUES (' + ' \' ' + 
-    trains.train_number + ' \' '+ ',' + trains.homestation_id +')' ;
+    
+    var sql =`INSERT INTO trains (${Object.keys(train).join(',')})` + 'VALUES (' + ' \'' + 
+    train.train_number + '\' '+ ',' + train.homestation_id +')' ;
     console.log(sql);
 
     con.query(sql, function (err, result) {
         console.log(err);
         
     });
-    })
     
 }
 // window.alert("OK!");

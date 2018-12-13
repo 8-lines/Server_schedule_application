@@ -11,17 +11,38 @@ img{
 }
 
 body{
+	background-image: url(images/back1025.jpg);
+    background-size: 100% auto;
 	margin-left:auto;
 	margin-right:auto;
 	position: relative;
 	line-height: 1.6;
 	font-family: "Roboto", sans-serif;
 	overflow-x: hidden;
+	display:block;
 }
 
-.main-head{
+/* .main-head{
 	background-size: 100% auto;
     min-height:100vh;
+} */
+
+.Schedule-top {
+	margin-top: 5%;
+}
+
+.Schedule {
+	word-spacing: 10px;
+	margin-left: 8%;
+	width: 84%;
+	padding: 18px;
+	font-family: "Roboto", sans-serif;
+	font-size: 1.2em;
+	line-height: 10px;
+	background-color: #E6E6E6;
+	border: 3px solid #cccccc;
+    border-radius: 4px;
+    text-align: left; 
 }
 
 /*The button for log in*/
@@ -200,7 +221,7 @@ hr {
 
 @media (min-width:1025px){
 	.btn-danger{
-		margin-left:75%;
+		margin-left:43%;
 		font-size: 1.4em; 
 	}
 	.btn-warning{

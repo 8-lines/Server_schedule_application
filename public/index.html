@@ -14,13 +14,12 @@
         <link rel="stylesheet" type="text/css" href="indexStyle.css">
     </head>
     <body>
-        <header class ="main-head"> 
-            <div class="text-right">
-                <button onclick="document.getElementById('id02').style.display='block'" class="btn btn-danger text-dark">LOG IN</button>
-                <button onclick="document.getElementById('id01').style.display='block'" type="button" id="sign_button"  class="btn btn-warning text-dark">SIGN UP</button>
-            </div>
+        <header class ="main-head">
+            <button onclick="document.getElementById('id02').style.display='block'" class="btn btn-danger text-dark">Log in</button>
+            <button onclick="document.getElementById('id01').style.display='block'" type="button" id="sign_button"  class="btn btn-warning text-dark">Sign up</button>
         </header>
 
+        <div class="Schedule" id = "schedulesField"> </div>
 
 <!-- The Modal -->
 <div id="id02" class="modal">
@@ -60,7 +59,6 @@
                 </div>
             </div>
         </div>
-
 </body>
 
     <!-- Initialize Firebase -->

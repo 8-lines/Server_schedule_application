@@ -8,19 +8,16 @@
   },
   "hosting": {
     "public": "public",
-    "rewrites": [{
-      "source": "**",
-      "function": "server"
-      
-    }],
-    "dependencies": {
-      "mysql": "^2.16.0",
-      "restify": "^7.2.2"
-    },
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   }
 }

@@ -49,10 +49,9 @@ server.get('/index.html', function(req, res, next){
     return next();
 }); 
 
-server.get('/profile.html', function(req,res, next){ 
-    console.log('/main.. was called'); 
+server.get('/schedule.html', function(req,res, next){ 
     res.writeHead(200, {"Content-Type":"text/html"});
-    file = fs.createReadStream('../public/profile.html');
+    file = fs.createReadStream('../public/schedule.html');
     file.pipe(res);
     return next();
 }); 
@@ -64,9 +63,9 @@ server.get('/indexStyle.css', function(req, res, next){
     return next();
 }); 
 
-server.get('/profileStyle.css', function(req, res, next){ 
+server.get('/scheduleStyle.css', function(req, res, next){ 
     res.writeHead(200, {"Content-Type":"text/css"});
-    file = fs.createReadStream('../public/profileStyle.css');
+    file = fs.createReadStream('../public/scheduleStyle.css');
     file.pipe(res);
     return next();
 }); 
@@ -102,6 +101,17 @@ server.post('/api/train',
     next();
 });
 
+server.post('/api/station',
+    function(req, res, next){
+    console.log(req.body);
+    var station = req.body;
+    insertStation(station);
+    res.sendStatus(200);
+    // res.end();
+    res.send(JSON.stringify(station));
+    next();
+});
+
 server.get('/schedulesList', (req, res)=>{
     con.query('use train_schedule;', function (err, result, fields){
         if(err)
@@ -113,11 +123,27 @@ server.get('/schedulesList', (req, res)=>{
         if (err){
             console.log(err);
         } else{
-            console.log(result);
+            //console.log(result);
             res.json(result);
         }
     });
-    // });
+});
+
+server.get('/scheduleExact', (req, res)=>{
+    con.query('use train_schedule;', function (err, result, fields){
+        if(err)
+            throw err;
+      });    
+    var sql  = fs.readFileSync('../public/Exact_schedule.sql', 'utf8');
+
+    con.query(sql, function (err, result) {
+        if (err){
+            console.log(err);
+        } else{
+            //console.log(result);
+            res.json(result);
+        }
+    });
 });
 
 function insertTrain(train) {
@@ -125,6 +151,20 @@ function insertTrain(train) {
     
     var sql =`INSERT INTO trains (${Object.keys(train).join(',')})` + 'VALUES (' + ' \'' + 
     train.train_number + '\' '+ ',' + train.homestation_id +')' ;
+    console.log(sql);
+
+    con.query(sql, function (err, result) {
+        console.log(err);
+        
+    });
+    
+}
+
+function insertStation(station) {
+    //var values = Object.values(train);
+    
+    var sql =`INSERT INTO stations (${Object.keys(train).join(',')})` + 'VALUES (' + ' \'' + 
+    station.station_name +')' ;
     console.log(sql);
 
     con.query(sql, function (err, result) {

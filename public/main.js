@@ -1,33 +1,34 @@
-// var mysql = require('mysql'); //подключение к базе данных
+$(document).ready ( function (){
+  $.ajax({
+    type: "GET",
+    url:'/schedulesList',
+    dataType:"json",
+    success: function(data){
+      console.log(data);
+      schedules = data;
+      ShowSchedules(schedules);
+    }
+  });
+});
 
-// var con = mysql.createConnection({
-//   host: "35.236.149.253",
-//   user: "root",
-//   password: "root",
-//   database : 'train_schedule'
-// });
-// window.alert("OK!");
-// con.connect(function(err) {
-  
-//   if (err) {   window.alert("ERROR!"); }
-//   //Select all customers and return the result object:
-//   con.query("use train_schedule;", function (err, result, fields){});
-//   con.query("SELECT * FROM trains;", function (err, result, fields) {
-//     if (err) throw err;
-//     //console.log(result);
-//     window.alert(result);
-//   });
-// });
+function ShowSchedules(schedules){
+  //window.alert("OK!");
+  var list_temp = '<div class = "Schedule-top">' + '</div>';
+  document.getElementById('schedulesField').innerHTML += list_temp;
+    for (var i=0; i<schedules.length; i++) {
+    var list = '<div class = "Schedule">'+ schedules[i].col1 + ": &nbsp;&nbsp;" + schedules[i].col2 + " &nbsp;" +
+    schedules[i].col3 + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + schedules[i].col4 + " &nbsp;" + schedules[i].col5 + '</div>';
+    document.getElementById('schedulesField').innerHTML += list;
+  }
+}
 
-
-//firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 var isLog = firebase.auth().currentUser;
 
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     if (isLog != null) {
-      document.location.href = "/profile.html";
+      document.location.href = "/schedule.html";
     }
 
   } 
@@ -49,7 +50,7 @@ function login(){
   else
   {
     window.alert("Allready logged in!" );
-    document.location.href = "/profile.html";
+    document.location.href = "/schedule.html";
   }
 }
 
@@ -68,35 +69,4 @@ function signup(){
     window.alert("Error: " + " " + error.message);
   });
   isLog = 1;
-}
-
-
-// добавление новых данных в таблицу
-function addTrain(){
-    var trainNB = document.getElementById("trainNB_field_sign").value.toString();
-    var homestationID = document.getElementById("homestationID_field_sign").value.toString();
-
-    var train = {
-      train_number: trainNB,
-      homestation_id: homestationID,
-    };
-    //include("db.js");
-    //var userJSON = JSON.stringify(user);
-    SendData(train);
-    isLog = 1;
-  }
-
-function SendData(train)
-{
-  $.ajax({
-    url: "/api/train",
-    type: "POST",
-    data: JSON.stringify(train),
-    contentType: "application/json",
-    complete: 	function(data) {
-      console.log(data.request); //в консоле браузера выводим json в параметре request
-                                            //т.е. то что нам отправил сервер в ответ
-        //console.log(data.request.name1);  //мы можем вывести какой-то параметр полученного json, например name1
-    }
-  });
 }
